@@ -1,19 +1,7 @@
-/* FileUpload.css */
-body {
-  font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #007bff, #6610f2);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: #ffffff;
-}
-
 .file-upload-page {
   width: 100%;
   max-width: 600px;
+  margin: auto;
   background: #ffffff;
   color: #333;
   border-radius: 10px;
@@ -96,3 +84,4 @@ input[type='text'] {
   font-size: 0.9rem;
   color: #333;
 }
+
