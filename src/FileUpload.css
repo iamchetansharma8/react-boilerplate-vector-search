@@ -1,52 +1,29 @@
-.file-upload-page {
-  width: 100%;
-  max-width: 600px;
-  margin: auto;
-  background: #ffffff;
-  color: #333;
-  border-radius: 10px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  text-align: center;
-}
-
-.app-header {
-  background: #007bff;
-  color: #ffffff;
-  padding: 1rem 0;
-}
-
 .upload-container {
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 1rem;
+  background-color: #f9f9f9;
 }
 
-h2 {
-  font-size: 1.5rem;
-  color: #007bff;
+.upload-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
 .upload-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-  margin-top: 1rem;
-}
-
-.form-group {
+  gap: 1rem;
   width: 100%;
   max-width: 400px;
 }
 
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #333;
-}
-
-input[type='file'],
-input[type='text'] {
+.file-input,
+.index-input {
   width: 100%;
   padding: 0.8rem;
   font-size: 1rem;
@@ -54,34 +31,29 @@ input[type='text'] {
   border-radius: 5px;
 }
 
-.upload-button,
-.back-button {
-  background: linear-gradient(135deg, #007bff, #6610f2);
-  color: white;
+.upload-button {
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  color: #fff;
+  background: linear-gradient(to right, #4caf50, #2e7d32);
   border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s;
 }
 
-.upload-button:hover,
-.back-button:hover {
-  background: linear-gradient(135deg, #0056b3, #5000c7);
+.upload-button:hover {
+  background: linear-gradient(to right, #66bb6a, #388e3c);
 }
 
-.message {
+.success-message {
   margin-top: 1rem;
+  color: #4caf50;
   font-size: 1rem;
-  color: #007bff;
 }
 
-.app-footer {
-  background: #f4f4f9;
-  text-align: center;
-  padding: 1rem 0;
-  font-size: 0.9rem;
-  color: #333;
+.error-message {
+  margin-top: 1rem;
+  color: #e53935;
+  font-size: 1rem;
 }
-
