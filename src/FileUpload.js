@@ -1,75 +1,80 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './FileUpload.css';
 
-const FileUpload = ({ onBack }) => {
-  const [file, setFile] = useState(null);
+const FileUpload = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
   const [indexName, setIndexName] = useState('');
-  const [message, setMessage] = useState('');
+  const [uploadStatus, setUploadStatus] = useState('');
+  const [error, setError] = useState('');
 
-  const handleFileUpload = async (e) => {
-    e.preventDefault();
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+    setUploadStatus('');
+    setError('');
+  };
 
-    if (!file || !indexName) {
-      setMessage('Please select a file and specify an index name.');
+  const handleIndexChange = (e) => {
+    setIndexName(e.target.value);
+    setUploadStatus('');
+    setError('');
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile || !indexName) {
+      setError('Please select a file and specify an index name.');
+      return;
+    }
+
+    if (selectedFile.size > 50 * 1024 * 1024) {
+      setError('File size exceeds the 50MB limit.');
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', selectedFile);
     formData.append('index', indexName);
 
     try {
-      const response = await fetch('http://localhost:5000/upload', {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post('http://localhost:5000/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'ApiKey your_api_key_here', // Replace with actual API key
+        },
       });
-
-      const data = await response.json();
-      if (response.ok) {
-        setMessage(`Success: ${data.message}`);
-      } else {
-        setMessage(`Error: ${data.error}`);
-      }
-    } catch (error) {
-      setMessage('An error occurred. Please try again.');
+      setUploadStatus(response.data.message || 'File uploaded successfully!');
+    } catch (err) {
+      console.error(err);
+      setError('File upload failed. Please try again.');
     }
   };
 
   return (
-    <div className="file-upload-page">
-      <header className="app-header">
-        <h1>ELSER Search Application</h1>
-      </header>
-      <div className="upload-container">
-        <h2>Upload File to Elasticsearch</h2>
-        <form className="upload-form" onSubmit={handleFileUpload}>
-          <div className="form-group">
-            <label>File:</label>
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-          </div>
-          <div className="form-group">
-            <label>Index Name:</label>
-            <input
-              type="text"
-              placeholder="Enter index name"
-              value={indexName}
-              onChange={(e) => setIndexName(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="upload-button">
-            Upload
-          </button>
-        </form>
-        {message && <p className="message">{message}</p>}
-        <button className="back-button" onClick={onBack}>
-          Back to Search
+    <div className="upload-container">
+      <h2 className="upload-title">Upload a File</h2>
+      <div className="upload-form">
+        <input
+          type="file"
+          accept=".pdf, .docx, .txt, .csv, .xlsx, .html, .md"
+          className="file-input"
+          onChange={handleFileChange}
+        />
+        <input
+          type="text"
+          placeholder="Enter index name"
+          value={indexName}
+          className="index-input"
+          onChange={handleIndexChange}
+        />
+        <button className="upload-button" onClick={handleUpload}>
+          Upload
         </button>
       </div>
-      <footer className="app-footer">
-        <p>&copy; 2024 ELSER Search Application</p>
-      </footer>
+      {uploadStatus && <div className="success-message">{uploadStatus}</div>}
+      {error && <div className="error-message">{error}</div>}
     </div>
   );
 };
 
 export default FileUpload;
+
